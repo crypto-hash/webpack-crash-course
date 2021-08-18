@@ -1,3 +1,4 @@
+const { userInfo } = require('os')
 const path = require('path')
 
 const outputPath = path.resolve(__dirname, 'dist')
@@ -7,6 +8,17 @@ module.exports = {
     output: {
         filename: 'main.js',
         path: outputPath
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/, 
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            }
+        ]
     },
     devServer: {
         contentBase: outputPath
