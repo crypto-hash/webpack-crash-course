@@ -1,5 +1,6 @@
 const { userInfo } = require('os')
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const outputPath = path.resolve(__dirname, 'dist')
 
@@ -11,6 +12,13 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                use: {
+                  loader: "babel-loader",
+                }
+            },
             {
                 test: /\.css$/, 
                 use: [
@@ -30,13 +38,22 @@ module.exports = {
                 test: /\.(jpe?g|png|gif|svg|ico)$/i, 
                 loader: 'url-loader',
                 options: {
-                    limit: 2048,
-                    name: './images/[name].[ext]' 
+                    limit: 2048
                 }
+            },
+            {
+                test: /\.html$/, 
+                loader: 'html-loader'
             }
         ]
     },
     devServer: {
         contentBase: outputPath
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html', 
+            filename: './index.html'
+        })
+    ]
 }
